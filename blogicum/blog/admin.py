@@ -15,6 +15,7 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('created_at', )
     empty_value_display = '-пусто-'
 
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('description', )
