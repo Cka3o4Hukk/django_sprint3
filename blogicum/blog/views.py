@@ -1,8 +1,7 @@
 from typing import Union
-from django.conf import settings
-from django.http import Http404, HttpResponse, HttpRequest
-from django.shortcuts import render
-from .models import Post
+from blogicum import settings
+from django.shortcuts import get_object_or_404, render
+from .models import Post, Category
 from django.utils.timezone import now
 
 
@@ -53,22 +52,43 @@ POSTS_DICT = {post['id']: post for post in posts}
 
 
 def index(request):
-    posts1 = Post.objects.select_related(
+    posts = Post.objects.select_related(
         'author', 'category', 'location',
     ).filter(
         is_published=True,
         pub_date__lt=now(),
         category__is_published=True,
     )[:settings.POSTS_BY_PAGE]
-    return render(request, 'blog/index.html', {'post_list': posts1})
+    return render(request, 'blog/index.html', {'post_list': posts})
 
 
 def post_detail(request, post_id):
-    if post_id not in POSTS_DICT:
-        raise Http404("Post not found")
-    return render(request, 'blog/detail.html', {'post': POSTS_DICT[post_id]})
+    posts = get_object_or_404(
+        Post.objects.select_related(
+            'author', 'category', 'location',
+        ).filter(
+            is_published=True,
+            pub_date__lt=now(),
+            category__is_published=True,
+        ),
+        id=post_id
+    )
+
+    return render(request, 'blog/detail.html', {'post': posts})
 
 
 def category_posts(request, category_slug):
+    category = get_object_or_404(
+        Category.objects.filter(
+            slug=category_slug,
+            is_published=True
+        )
+    )
+    post_list = Post.objects.filter(
+        is_published=True,
+        pub_date__lt=now(),
+        category__slug=category_slug,
+    )
+
     return render(request, 'blog/category.html',
-                  {'slug': category_slug})
+                  {'post_list': post_list, 'category': category})

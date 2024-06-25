@@ -1,7 +1,7 @@
-from django.db import models
 from django.contrib.auth import get_user_model
-from django.conf import settings
+from django.db import models
 from django.utils import timezone
+from blogicum import settings
 
 User = get_user_model()
 
@@ -21,7 +21,6 @@ class BaseBlogModel(models.Model):
 
 
 class Category(BaseBlogModel):
-
     title = models.CharField('Заголовок', max_length=settings.MAX_FIELD_LENGTH)
     description = models.TextField('Описание')
     slug = models.SlugField(
@@ -55,7 +54,6 @@ class Post(BaseBlogModel):
     title = models.CharField('Заголовок', max_length=settings.MAX_FIELD_LENGTH)
     text = models.TextField('Текст')
     pub_date = models.DateTimeField(
-        default=timezone.now,
         verbose_name='Дата и время публикации',
         help_text='Если установить дату и время в будущем — '
                   'можно делать отложенные публикации.',

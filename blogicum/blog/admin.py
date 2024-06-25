@@ -19,9 +19,8 @@ class PostAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('description', )
     list_display = (
-        'id', 'title', 'description', 'created_at', 'is_published'
+        'id', 'title', 'description', 'created_at', 'is_published', 'slug'
     )
-    link_display_links = ('description')
     list_editable = ('title', 'is_published')
     list_filter = ('created_at', )
     empty_value_display = '-пусто-'
