@@ -1,6 +1,12 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import Category, Location, Post, User
 
-from .models import Category, Location, Post
+
+admin.site.unregister(User)
+# Отмена регистрации встроенной модели пользователя
+admin.site.register(User, UserAdmin)
+# Регистрация пользовательской модели с использованием UserAdmin
 
 
 @admin.register(Post)  # первый способ
