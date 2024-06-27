@@ -1,8 +1,23 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from blogicum import settings
+from django.db import models
+from django.utils.timezone import now
 
 User = get_user_model()
+
+
+class PublishedPostQuerySet(models.QuerySet):
+    def published(self):
+        return self.filter(
+            is_published=True,
+            pub_date__lt=now(),
+            category__is_published=True)
+
+
+class PostManager(models.Manager):
+    def published(self):
+        return PublishedPostQuerySet(self.model, using=self._db)
 
 
 class BaseBlogModel(models.Model):
@@ -79,6 +94,8 @@ class Post(BaseBlogModel):
         default_related_name = 'posts'
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
+
+    objects = PostManager()
 
     def __str__(self) -> str:
         return self.title[:settings.REPRESENTATION_LENGTH]
