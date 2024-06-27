@@ -21,11 +21,9 @@ def category_posts(request, category_slug):
             is_published=True
         )
     )
-    post_list = Post.objects.filter(
+    post_list = category.post_set.filter(
         is_published=True,
-        pub_date__lt=now(),
-        category__slug=category_slug,
+        pub_date__lt=now()
     )
-
     return render(request, 'blog/category.html',
                   {'post_list': post_list, 'category': category})
