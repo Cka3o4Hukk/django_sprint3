@@ -21,7 +21,7 @@ def category_posts(request, category_slug):
             is_published=True
         )
     )
-    post_list = category.post_set.filter(
+    post_list = category.posts.filter(
         is_published=True,
         pub_date__lt=now()
     )
