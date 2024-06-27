@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from blogicum import settings
-from django.db import models
 from django.utils.timezone import now
 
 User = get_user_model()
@@ -16,8 +15,11 @@ class PublishedPostQuerySet(models.QuerySet):
 
 
 class PostManager(models.Manager):
-    def published(self):
+    def get_queryset(self):
         return PublishedPostQuerySet(self.model, using=self._db)
+
+    def published(self):
+        return self.get_queryset().published()
 
 
 class BaseBlogModel(models.Model):

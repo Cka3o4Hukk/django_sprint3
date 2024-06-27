@@ -10,8 +10,8 @@ def index(request):
 
 
 def post_detail(request, post_id):
-    post = Post.objects.published().get(id=post_id)
-    return render(request, 'blog/detail.html', {'post': post})
+    posts = get_object_or_404(Post.objects.published(), id=post_id)
+    return render(request, 'blog/detail.html', {'post': posts})
 
 
 def category_posts(request, category_slug):
