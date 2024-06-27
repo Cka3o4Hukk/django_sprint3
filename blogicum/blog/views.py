@@ -1,7 +1,6 @@
 from blogicum import settings
 from django.shortcuts import get_object_or_404, render
 from .models import Post, Category
-from django.utils.timezone import now
 
 
 def index(request):
@@ -21,9 +20,7 @@ def category_posts(request, category_slug):
             is_published=True
         )
     )
-    post_list = category.posts.filter(
-        is_published=True,
-        pub_date__lt=now()
-    )
+    post_list = Post.objects.published().filter(category=category)
+
     return render(request, 'blog/category.html',
                   {'post_list': post_list, 'category': category})

@@ -6,8 +6,6 @@
 <h1>Публикации в категории «{{ category.title }}»</h1>
 <p class="mb-5">{{ category.description }}</p>
 {% for post in post_list %}
-  {% block article %}
-    {% include "includes/post_card.html" %}
-  {% endblock %}
+  {% include "includes/post_card.html" %}
 {% endfor %}
 {% endblock %}

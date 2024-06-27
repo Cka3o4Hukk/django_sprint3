@@ -5,9 +5,7 @@
 {% block content %}
   <h1 class="mb-5">Лента записей</h1>
   {% for post in post_list %}
-    {% block article %}
-      {% include "includes/post_card.html" %}
-    {% endblock %} 
+    {% include "includes/post_card.html" %}
   {% endfor %}
 {% endblock %}
 
