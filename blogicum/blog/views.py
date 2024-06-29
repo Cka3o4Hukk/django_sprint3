@@ -20,7 +20,7 @@ def category_posts(request, category_slug):
             is_published=True
         )
     )
-    post_list = Post.objects.published().filter(category=category)
+    post_list = category.posts.published()
 
     return render(request, 'blog/category.html',
                   {'post_list': post_list, 'category': category})
